@@ -112,14 +112,14 @@ def get_flim_data_stack_static(sync, tcspc, channel, special, header_variables):
         unNoticed_events   = 0
         countFrame         = 0
         insideLine         = False
-        insideFrame        = False
+        insideFrame        = True
         isPhoton           = False
 
         for event in range(read_data_range+1):
 
-            if num_of_Frames == 1:
-                # when only zero/one frame marker is present in TTTR file
-                insideFrame = True
+            #if num_of_Frames == 1:
+            #    # when only zero/one frame marker is present in TTTR file
+            #    insideFrame = True
 
             currentSync    = sync[event]
             special_event  = special[event]
