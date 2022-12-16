@@ -74,3 +74,4 @@ flim_data_stack, intensity_image = ptu_file.get_flim_data_stack()
 
 ## Updates
 - 27 Aug, 2019: Piezo Scanner data readability added to the library
+- 16 Dec, 2022: BugFix multiple frames read in get_flim_data_stack_static
