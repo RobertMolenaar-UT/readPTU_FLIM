@@ -287,7 +287,9 @@ class PTUreader():
 
         # Get the tag name (first element of the tag_struct)
         tagName = tag_struct[0].rstrip(b'\0').decode()
-
+        if tag_struct[1] !=-1:
+            tagName=f'{tagName}({tag_struct[1]})'
+      
         keys = ('idx', 'type', 'value')
         tag = {k: v for k, v in zip(keys, tag_struct[1:])}
 
@@ -578,8 +580,10 @@ class PTUreader():
 def get_lifetime_image(flim_data_stack,channel_number,timegating_start1,timegating_stop1,meas_resolution,estimated_irf):
 
     work_data  = flim_data_stack[:,:,channel_number,timegating_start1:timegating_stop1]
-    bin_range = np.reshape(np.linspace(0,timegating_stop1,timegating_stop1),(1,1,timegating_stop1))
-
+    bin_range = np.reshape(np.linspace(0,timegating_stop1-timegating_start1,timegating_stop1-timegating_start1),(1,1,timegating_stop1-timegating_start1))
+    intensity = np.sum(work_data,axis = 2)
     fast_flim = (np.sum(work_data*bin_range,axis = 2)*meas_resolution)/np.sum(work_data,axis = 2)
-    
-    return fast_flim
+    if estimated_irf!=0:
+        fast_flim=fast_flim-estimated_irf
+  
+    return fast_flim, intensity
